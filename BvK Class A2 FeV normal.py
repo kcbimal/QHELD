@@ -7,7 +7,7 @@ import time, sys, os
 start_time = time.time()                #line 609, 624
 
 temp = 300
-alat = 3.319
+alat = 3.3107
 root = 'Ta_'+str(alat)+'_'+str(temp)+'K'
 supercell_length = 4
 natoms = 128
@@ -614,7 +614,7 @@ dump_file_root = root + '_QE_in_stage_' + str(stage_number) + '_instance_' # 'Fe
 # dump_file_root = 'nm_' + root + '_QE_in_stage_' + str(stage_number) + '_instance_' # 'FeVmd_'
 #pos_file = 'FeV_B2_2.78.pos'
 # fc_filename = 'fc_B2_2.77_900K_QE_stage_1.csv'
-fc_filename = 'fc_Ta_3.319_300K_QE_stage_' + str(stage_number) + '.csv'
+fc_filename = 'fc_Ta_3.3107_300K_QE_stage_' + str(stage_number) + '.csv'
 # fc_filename = 'nm_fc_' + root + '_QE_in_stage_' + str(stage_number) + '.csv'
 
 positions = np.zeros((natoms, 3, ntsteps))

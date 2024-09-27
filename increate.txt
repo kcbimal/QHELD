@@ -1,5 +1,5 @@
 # for loop for different parameters (strain)
-for i in {0..19}
+for i in {0..9}
 # create a directory for each strain and copy tables
 do
 

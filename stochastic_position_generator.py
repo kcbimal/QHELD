@@ -11,9 +11,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 temp = 300
-alat = 3.319
+alat = 3.3107
 root = 'Ta_'+str(alat)+'_'+str(temp)+'K'
-stage_number = 2    #use current stage_number in normal modes (1 at start, so on)
+stage_number = 1    #use current stage_number in normal modes (1 at start, so on)
 natoms = 2
 atoms = ['Ta', 'Ta']
 masses = np.array([180.95, 180.95])

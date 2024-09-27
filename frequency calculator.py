@@ -11,10 +11,10 @@ import yaml
 temp = 300
 init_no = 0   
 ndisps = 1
-latpar = 3.319
+latpar = 3.3107
 root = 'Ta_'+str(latpar)+'_'+str(temp)+'K'
-#initially for FC, stage =0 and for normal modes stage =1
-#after first iteration, both are same
+#initially for FC, use stage =0 and for normal modes use stage =1
+#after first iteration, in second step both are same 
 stage_numbers = 1 
 stage_number = 1  
 alat = latpar * 4 # Lattice parameter times number of unit cells (so the size of the box)
@@ -113,12 +113,14 @@ if 0 == stage_numbers:
      fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_0/fc_Ta_3.319_300K_QE_in_stage_0.csv', skiprows=2, header=None)
 
 if 1 == stage_numbers:
-    fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_1/fc_Ta_3.319_300K_QE_stage_1.csv', skiprows=2, header=None)
+    fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_1/fc_Ta_3.3107_300K_QE_stage_1.csv', skiprows=2, header=None)
 
 if 2 == stage_numbers:
-    fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_2/fc_Ta_3.319_300K_QE_stage_2.csv', skiprows=2, header=None)   
-# print(fc_per_ts_df[:-1].mean())
+    fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_2/fc_Ta_3.3107_300K_QE_stage_2.csv', skiprows=2, header=None)   
 
+if 3 == stage_numbers:
+    fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_2/fc_Ta_3.3107_300K_QE_stage_3.csv', skiprows=2, header=None)   
+# print(fc_per_ts_df[:-1].mean())
 # sys.exit()
 
 #%%

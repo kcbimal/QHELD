@@ -14,7 +14,7 @@ cat > header.in << EOF
    dt = 2.0670d1 !1fts
    tstress= .TRUE.
    tprnfor = .TRUE.
-   nstep= 100
+   nstep= 10
    max_seconds= 14500
 /
  &system
@@ -47,7 +47,7 @@ Ta   180.95   ta_pbe_v1.uspp.F.UPF
 EOF
 !
 # join header with atomic positions
-cat header.in Ta_3.319_300K_QE_in_stage_1_instance_$i >| Ta-$i.in
+cat header.in Ta_3.3107_300K_QE_in_stage_1_instance_$i >| Ta-$i.in
 #mv Ta-$i.in m
 
 
