@@ -1,0 +1,50 @@
+&control
+   calculation='md'
+   restart_mode='from_scratch',
+   prefix='Ta'
+   pseudo_dir = './',
+   outdir = './outdir'
+   dt = 2.0670d1 !1fts
+   tstress= .TRUE.
+   tprnfor = .TRUE.
+   nstep= 10
+   max_seconds= 14500
+/
+ &system
+    ibrav = 0
+    nat = 2
+    ntyp = 1
+    ecutwfc=80
+    ecutrho=600
+    occupations='smearing'
+    smearing='m-v'
+    degauss= 0.02
+    nosym=.true.
+/
+ &electrons
+    conv_thr = 1.0d-4
+    electron_maxstep = 100,
+    mixing_beta=0.2d0
+/
+ &ions
+    pot_extrapolation = 'second_order'
+    wfc_extrapolation = 'second_order'
+    ion_temperature = 'svr'
+    !ion_dynamics = 'verlet'
+    tempw = 300.0
+    nraise = 20
+/
+K_POINTS {gamma} 
+1 1 1 0 0 0 
+
+CELL_PARAMETERS {angstrom} 
+3.319 0.00000000 0.00000000
+0.00000000 3.319 0.00000000
+0.00000000 0.00000000 3.319
+
+ATOMIC_SPECIES
+Ta   180.95   ta_pbe_v1.uspp.F.UPF
+
+ATOMIC_POSITIONS (crystal)
+Ta  0.00000000000000  0.00000000000000  0.00000000000000
+Ta  0.50000000000000  0.50000000000000  0.50000000000000

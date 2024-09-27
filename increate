@@ -1,0 +1,59 @@
+# for loop for different parameters (strain)
+for i in {0..9}
+# create a directory for each strain and copy tables
+do
+
+# create header
+cat > header.in << EOF
+&control
+   calculation='md'
+   restart_mode='from_scratch',
+   prefix='Ta-$i'
+   pseudo_dir = './',
+   outdir = './outdir'
+   dt = 2.0670d1 !1fts
+   tstress= .TRUE.
+   tprnfor = .TRUE.
+   nstep= 100
+   max_seconds= 14500
+/
+ &system
+    ibrav = 0
+    nat = 128
+    ntyp = 1
+    ecutwfc=80
+    ecutrho=600
+    occupations='smearing'
+    smearing='m-v'
+    degauss= 0.02
+    nosym=.true.
+/
+ &electrons
+    conv_thr = 1.0d-4
+    electron_maxstep = 100,
+    mixing_beta=0.2d0
+/
+ &ions
+    pot_extrapolation = 'second_order'
+    wfc_extrapolation = 'second_order'
+    ion_temperature = 'svr'
+    !ion_dynamics = 'verlet'
+    tempw = 300.0
+    nraise = 20
+/
+ATOMIC_SPECIES
+Ta   180.95   ta_pbe_v1.uspp.F.UPF
+
+EOF
+!
+# join header with atomic positions
+cat header.in Ta_3.319_300K_QE_in_stage_1_instance_$i >| Ta-$i.in
+#mv Ta-$i.in m
+
+
+# erase header file
+rm header.in
+
+done
+
+
