@@ -3,16 +3,17 @@ from math import sqrt, isclose
 from scipy.stats import norm
 from matplotlib import pyplot as plt
 import time, sys, os
+from matplotlib.ticker import FuncFormatter
 
 start_time = time.time()                #line 609, 624
 
 temp = 300
-alat = 3.3107
+alat = 3.308
 root = 'Ta_'+str(alat)+'_'+str(temp)+'K'
 supercell_length = 4
 natoms = 128
-stage_number = 1    #use current stage_number (always start from 0, not from 00)
-par_dir = 'C:/Users/bkc/Downloads/Tantalum_recover/Ta_QMD/'
+stage_number = 0   
+par_dir = 'C:/Users/bkc/Downloads/Tantalum_recover/Ta_QMD/319/'+str(alat)+'/'
 
 class Force_Constants:
     #Values of Born-von Kármán model for up to fifth nearest neighbors of a bcc structure
@@ -351,9 +352,18 @@ class Force_Constants:
                 x = np.linspace(xmin, xmax, 40)
                 pdf = norm.pdf(x, phiv_fit[tpe, 0], phiv_fit[tpe, 1])
                 plt.plot(x, pdf, 'r')
-                plt.title('Distribution of ' + str(self.index[tpe]))
-                plt.xlabel('Force constant value')
-                plt.ylabel('Density')
+                plt.title('Distribution of ' + str(self.index[tpe]), fontsize=14)
+                plt.xlabel('Force constant value', fontsize=14)
+                plt.ylabel('Density', fontsize=14)
+                plt.xticks(fontsize=14)  # Increase x-axis tick font size
+                plt.yticks(fontsize=14)  # Increase y-axis tick font size
+                # Function to truncate x values to 2 decimal places
+                def truncate_x(x, pos):
+                    return f'{x:.2f}'
+                
+                # Set formatter for x-axis to truncate to 2 decimal places
+                plt.gca().xaxis.set_major_formatter(FuncFormatter(truncate_x))
+                
                 plt.savefig('Normal fit ' + self.index[tpe] + '.png')
                 plt.show()
                 plt.close()
@@ -614,14 +624,14 @@ dump_file_root = root + '_QE_in_stage_' + str(stage_number) + '_instance_' # 'Fe
 # dump_file_root = 'nm_' + root + '_QE_in_stage_' + str(stage_number) + '_instance_' # 'FeVmd_'
 #pos_file = 'FeV_B2_2.78.pos'
 # fc_filename = 'fc_B2_2.77_900K_QE_stage_1.csv'
-fc_filename = 'fc_Ta_3.3107_300K_QE_stage_' + str(stage_number) + '.csv'
+fc_filename = 'fc_'+root+'_QE_in_stage_' + str(stage_number) + '.csv'
 # fc_filename = 'nm_fc_' + root + '_QE_in_stage_' + str(stage_number) + '.csv'
 
 positions = np.zeros((natoms, 3, ntsteps))
 forces = np.zeros((natoms, 3, ntsteps))
 
 big_ntstep = 0
-for file_number in [3]: #[0,1,2,3,4,5,6,8,9,10,11,12,15,16,17,18]: #select individual instance files
+for file_number in [0]: #[0,1,2,3,4,5,6,8,9,10,11,12,15,16,17,18]: #select individual instance files
 # for file_number in range(1):   #20 for 20 instances, 1 for first instances...
     qe_output_file_name = dump_file_root + str(file_number)
     positions_start_lines = []

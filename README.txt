@@ -1,7 +1,7 @@
 # homero_valeria_bimal_jorge_qmd_run (be careful in '# of md steps; ion temperature, temperaure, kpoints' in input file and band.conf and POSCAR for supercell
 Potential source: http://pseudopotentials.quantum-espresso.org/upf_files/Ta.pbe-spfn-kjpaw_psl.1.0.0.UPF
 
-0. Make 2 dir: normal_modes (with subdir.: stage_1, ....., stage_4) & force_constants with subdir.: stage_0, ....., stage_3
+0. Make 2 dir: normal_modes (with subdir.: stage_0, ....., stage_3) & force_constants with subdir.: stage_0, ....., stage_3
                >>> force_constants >> stage_0 files: "fc_Ta_3.319_300K_QE_in_stage_0" from HELD 1000K run
                                    >> stage_1 to stage_3 files: empty
                >>> normal_modes >> stage_1 files: band.conf, Ta.in, POSCAR, QPOINTS (from step 1), SPOSCAR (from step 2.3), header.in(or increate) 
@@ -31,7 +31,9 @@ For this part, first run 'normal_mode_locator.py' which will create a file calle
           Nevertheless, the values can be provided manually as well.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   3. frequency_calculator.py   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-2.5 'frequency_calculator.py' uses phonopy to calculate the frequencies, and phonopy needs a configuration file (band.conf, for example) that includes at least the following flags (the value for DIM can change but not the others). Make sure that the configuration file is in the directory. Phonopy will write a file named 'phonopy.yalm' with the results that will be used in the next part. 
+2.5 'frequency_calculator.py' uses phonopy to calculate the frequencies, and phonopy needs:
+		 a FORCE CONSTANT.CSV file and configuration file (band.conf, for example)
+band.conf includes at least the following flags (the value for DIM can change but not the others). Make sure that the configuration file is in the directory. Phonopy will write a file named 'phonopy.yalm' with the results that will be used in the next part. 
 
 DIM = 4 4 4
 READ_FORCE_CONSTANTS = .TRUE.
@@ -44,16 +46,20 @@ WRITEDM = .TRUE.
 3. The next step consists of generating atomic positions that are consistent with the normal modes at a given temperature.
 3.1 Run:      
      '/normal_modes/stochastic_position_generator.py'
-This will generate 20 instances file that contains "positions", "KPOINTS" and "cell parameter (a)"
+This reads the frequencies from "qpoints.yaml" and update positions accordingly.
+%%%%%%
+*** so from stage 1, grab "qpoints.yaml" from stage_0 and run .py code, so on ***
+%%%%%
+This will generate 10-20 instances file that contains "positions", "KPOINTS" and "cell parameter (a)"
 with file name "Ta_3.319_300K_QE_in_stage_1_instance_....*"
 
 The temperature 'temp' and number of configurations 'nconfigurations' must be provided by the user in the code, as well as some weird things like the mass of the types of atoms in the system. The code needs the information in SPOSCAR and in 'phonopy.yalm' generated in previous steps and it writes atomic configurations in the QE format.
  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   increate   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-4. Do short MD runs using the generated atomic configurations and use HELD to get updated (more accurate) force_constants.  
-4.1 Copy 'increate' and  2 'jobcreate..py' file to each stage in normal_modes and Run "increate" to generate .in file for MD run
-     anaconda prompt terminal cmd: bash increate
+4. Do short MD runs using the generated atomic configurations and use HELD to get updated (more accurate) force_constants. For this: 
+4.1 Copy 'increate' file to each stage in normal_modes and Run "increate" to generate .in file for MD run
+     anaconda prompt terminal cmd: ./increate or bash increate
      use python for: 'jobcreate.py' & 'jobcreate_embeded.py'
      
 NOTE: double check temp, lattice, natoms and all possible parameters

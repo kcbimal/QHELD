@@ -11,17 +11,16 @@ import yaml
 temp = 300
 init_no = 0   
 ndisps = 1
-latpar = 3.3107
-root = 'Ta_'+str(latpar)+'_'+str(temp)+'K'
+latpar = 3.33
+root = 'Ta_'+str(latpar)+'_1_'+str(temp)+'K'
 #initially for FC, use stage =0 and for normal modes use stage =1
 #after first iteration, in second step both are same 
-stage_numbers = 1 
-stage_number = 1  
+stage_number = 0  
 alat = latpar * 4 # Lattice parameter times number of unit cells (so the size of the box)
 # ndisps = 10 # Number of dispersions to generate (equal to number of yalm files)
 n = 4**3 * 2    
 #par_dir = 'C:/Users/biknb/Downloads/Tantalum/GP/QE/HELD_QMD_'+str(temp)+'K'
-par_dir = 'C:/Users/bkc/Downloads/Tantalum_recover/Ta_QMD'
+par_dir = 'C:/Users/bkc/Downloads/Tantalum_recover/Ta_QMD/319/'+str(latpar)+'/'
 
 #%%
 # dont change anything below this line (but don't forgot to check "if statement" below line 107-121)
@@ -108,18 +107,21 @@ fc_arr = np.array([[0, 0, 14, 14],
 # hack to use fc from a given file
 # fc_per_ts_df = pd.read_csv('/Users/csloaner/Documents/FeV_lammps/force_constants/B2_2.78_1500K/fc_B2_2.78_1500K_4000.csv', skiprows=4, header=None)
 #%%
- 
-if 0 == stage_numbers:
-     fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_0/fc_Ta_3.319_300K_QE_in_stage_0.csv', skiprows=2, header=None)
 
-if 1 == stage_numbers:
-    fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_1/fc_Ta_3.3107_300K_QE_stage_1.csv', skiprows=2, header=None)
+# if 0 == stage_numbers:
+     # fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_0/fc_Ta_3.304_800K.csv', skiprows=2, header=None)
 
-if 2 == stage_numbers:
-    fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_2/fc_Ta_3.3107_300K_QE_stage_2.csv', skiprows=2, header=None)   
+if 0 == stage_number:
+     fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_0/fc_'+str(root)+'_QE_in_stage_0.csv', skiprows=2, header=None)
 
-if 3 == stage_numbers:
-    fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_2/fc_Ta_3.3107_300K_QE_stage_3.csv', skiprows=2, header=None)   
+if 1 == stage_number:
+    fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_1/fc_'+str(root)+'_QE_in_stage_1.csv', skiprows=2, header=None)
+
+if 2 == stage_number:
+    fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_2/fc_'+str(root)+'_QE_in_stage_2.csv', skiprows=2, header=None)   
+
+if 3 == stage_number:
+    fc_per_ts_df = pd.read_csv(par_dir + '/force_constants/stage_2/fc_'+str(root)+'_QE_in_stage_3.csv', skiprows=2, header=None)   
 # print(fc_per_ts_df[:-1].mean())
 # sys.exit()
 
